@@ -1,6 +1,6 @@
 <product-info
   id="MainProduct-{{ section.id }}"
-  class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
+  class="minishop-product-detail section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
   data-section="{{ section.id }}"
   data-product-id="{{ product.id }}"
   data-update-url="true"
@@ -10,6 +10,9 @@
   {% endif %}
 >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+  {{ 'minishop-product-detail.css' | asset_url | stylesheet_tag }}
+  {{ 'be-vietnam-pro-latin-400.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2' }}
+  {{ 'be-vietnam-pro-vietnamese-400.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2' }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
@@ -75,9 +78,27 @@
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <product-component view-event-payload="{{ product | standard_event_data: 'view', context: 'page' | escape }}">
     <div class="page-width">
+          <nav class="minishop-breadcrumbs" aria-label="{{ 'minishop.breadcrumbs' | t }}">
+        <a href="{{ routes.root_url }}">⌂ {{ 'minishop.home' | t }}</a><span aria-hidden="true">›</span>
+        {% if product.collections.first %}<a href="{{ product.collections.first.url }}">{{ product.collections.first.title | escape }}</a><span aria-hidden="true">›</span>{% endif %}
+        <strong>{{ product.title | escape }}</strong>
+      </nav>
       <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
         <div class="grid__item product__media-wrapper">
-          {% render 'product-media-gallery', variant_images: variant_images %}
+          {% if product.media.size > 0 %}
+            {% render 'product-media-gallery', variant_images: variant_images %}
+          {% else %}
+            <div class="minishop-fallback-image">
+              {{ 'photo-1442512595331-e89e73853f31.jpg' | asset_url | image_tag: alt: product.title, loading: 'eager' }}
+            </div>
+          {% endif %}
+          {% if product.type != blank %}<span class="minishop-image-category">{{ product.type | escape }}</span>{% endif %}
+          <aside class="minishop-benefits" aria-label="{{ 'minishop.commitment_title' | t }}">
+            <strong>🛡 {{ 'minishop.commitment_title' | t }}</strong>
+            <p>✓ {{ 'minishop.commitment_product_info' | t }}</p>
+            <p>✓ {{ 'minishop.commitment_stock' | t }}</p>
+            <p>✓ {{ 'minishop.commitment_support' | t }}</p>
+          </aside>
         </div>
         <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           <section
@@ -85,6 +106,12 @@
             class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
           >
             {%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+            <div class="minishop-product-meta">
+              {% if product.type != blank %}<span>{{ product.type | escape }}</span>{% endif %}
+              <span>Mã SP: <strong>{{ product.selected_or_first_available_variant.sku | default: product.id }}</strong></span>
+              <span class="minishop-stock-badge{% unless product.available %} is-sold-out{% endunless %}">{% if product.available %}Còn hàng{% else %}Tạm hết hàng{% endif %}</span>
+            </div>
 
             {%- for block in section.blocks -%}
               {%- case block.type -%}
@@ -106,14 +133,19 @@
                       </h2>
                     </a>
                   </div>
+                  <p class="minishop-rating-note">{{ 'minishop.rating_note' | t }}</p>
                 {%- when 'price' -%}
-                  <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
-                    {%- render 'price',
-                      product: product,
-                      use_variant: true,
-                      show_badges: true,
-                      price_class: 'price--large'
-                    -%}
+                  <div class="minishop-price-panel" {{ block.shopify_attributes }}>
+                    <span class="minishop-price-label">{{ 'minishop.price_label' | t }}</span>
+                    <div id="price-{{ section.id }}" role="status">
+                      {%- render 'price',
+                        product: product,
+                        use_variant: true,
+                        show_badges: true,
+                        price_class: 'price--large'
+                      -%}
+                    </div>
+                    <small>{{ 'minishop.price_note' | t }}</small>
                   </div>
                   {%- if product.quantity_price_breaks_configured? -%}
                     <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
@@ -687,13 +719,22 @@
                   {% render 'icon-with-text', block: block %}
               {%- endcase -%}
             {%- endfor -%}
-            <a href="{{ product.url }}" class="link product__view-details animate-arrow">
-              {{ 'products.product.view_full_details' | t }}
-              {{- 'icon-arrow.svg' | inline_asset_content -}}
-            </a>
+            <aside class="minishop-policy" aria-label="{{ 'minishop.policy_title' | t }}">
+              <div><span aria-hidden="true">◷</span><strong>{{ 'minishop.shipping_title' | t }}</strong><small>{{ 'minishop.shipping_note' | t }}</small></div>
+              <div><span aria-hidden="true">↻</span><strong>{{ 'minishop.returns_title' | t }}</strong><small>{{ 'minishop.returns_note' | t }}</small></div>
+              <div><span aria-hidden="true">□</span><strong>{{ 'minishop.payment_title' | t }}</strong><small>{{ 'minishop.payment_note' | t }}</small></div>
+            </aside>
           </section>
         </div>
       </div>
+
+      <section class="minishop-details-panel" aria-label="{{ 'minishop.details_title' | t }}">
+        <div class="minishop-detail-tabs"><a class="is-active" href="#minishop-description">▤ {{ 'minishop.description_tab' | t }}</a><a href="#minishop-specifications">☷ {{ 'minishop.specifications_tab' | t }}</a></div>
+        <div class="minishop-details-content">
+          <article id="minishop-description"><h2>{{ 'minishop.description_title' | t }}</h2><div class="rte">{% if product.description != blank %}{{ product.description }}{% else %}<p>{{ 'minishop.empty_description' | t }}</p>{% endif %}</div></article>
+          <aside id="minishop-specifications"><h2>{{ 'minishop.specifications_title' | t }}</h2><dl><dt>{{ 'minishop.product_code' | t }}</dt><dd>{{ product.selected_or_first_available_variant.sku | default: product.id }}</dd><dt>{{ 'minishop.category' | t }}</dt><dd>{% if product.type != blank %}{{ product.type | escape }}{% else %}{{ 'minishop.unclassified' | t }}{% endif %}</dd><dt>{{ 'minishop.stock_status' | t }}</dt><dd>{% if product.available %}{{ 'minishop.in_stock' | t }}{% else %}{{ 'minishop.out_of_stock' | t }}{% endif %}</dd></dl><p class="minishop-data-note">{{ 'minishop.data_note' | t }}</p></aside>
+        </div>
+      </section>
 
       {% render 'product-media-modal', variant_images: variant_images %}
 

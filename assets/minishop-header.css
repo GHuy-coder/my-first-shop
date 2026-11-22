@@ -1,0 +1,99 @@
+.utility-bar.color-scheme-1,
+.utility-bar {
+  background: #eff4ff !important;
+  color: #806f69;
+}
+
+.utility-bar__grid.page-width {
+  display: flex;
+  width: 100%;
+  max-width: 1460px;
+  justify-content: flex-start;
+  padding: 9px 24px !important;
+}
+
+.announcement-bar { justify-content: flex-start; }
+.announcement-bar__message { padding: 0; text-align: left; }
+.announcement-bar__message.h5 { color: #806f69; font: 600 12px/1.55 "Be Vietnam Pro", Arial, sans-serif; letter-spacing: 0; }
+
+.header-wrapper { background: #fff !important; }
+.header-wrapper--border-bottom { border-bottom: 1px solid #e5eaf3; }
+.header-wrapper .header.page-width {
+  display: flex;
+  width: 100%;
+  max-width: 1460px;
+  min-height: 82px;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 24px;
+  margin: 0 auto;
+  padding: 12px 24px !important;
+}
+
+.header-drawer,
+.header__inline-menu,
+.header__icons header-search,
+.header__icons shopify-account,
+.header__icons .desktop-localization-wrapper { display: none !important; }
+.header-wrapper .header__heading { flex: none; width: auto; margin: 0; }
+.header__heading-link { padding: 0; text-decoration: none; }
+.minishop-header-brand { color: #c9001b; font: 800 29px/1.2 "Be Vietnam Pro", Arial, sans-serif; white-space: nowrap; }
+.minishop-header-brand span { color: #172235; }
+
+.minishop-header-search {
+  display: flex;
+  min-width: 0;
+  height: 44px;
+  flex: 1;
+  overflow: hidden;
+  border: 1px solid #d5e0f3;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.minishop-header-search input {
+  width: 100%;
+  min-width: 0;
+  padding: 0 14px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #172235;
+  font: 400 14px/1.5 "Be Vietnam Pro", Arial, sans-serif;
+}
+
+.minishop-header-search input::placeholder { color: #806f69; opacity: 1; }
+.minishop-header-search button { width: 56px; flex: 0 0 56px; border: 0; background: #0756d9; color: #fff; font: 400 22px/1 Arial, sans-serif; cursor: pointer; }
+.header-wrapper .header__icons { display: flex; width: auto; flex: none; align-items: center; margin: 0; gap: 0; }
+.header-wrapper .header__icon--cart { display: flex; width: auto; min-width: 0; height: 44px; padding: 9px 12px; border: 1px solid #d5e0f3; border-radius: 6px; background: #eff4ff; color: #0756d9; text-decoration: none; }
+.header__icon--cart .svg-wrapper,
+.header__icon--cart .cart-count-bubble { display: none !important; }
+.minishop-cart-label { color: #0756d9; font: 700 14px/1.5 "Be Vietnam Pro", Arial, sans-serif; white-space: nowrap; }
+
+.minishop-site-nav {
+  display: flex;
+  max-width: 1460px;
+  gap: 26px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  overflow-x: auto;
+  border-top: 1px solid #e5eaf3;
+  color: #705d56;
+  font: 400 14px/1.55 "Be Vietnam Pro", Arial, sans-serif;
+  white-space: nowrap;
+}
+
+.minishop-site-nav a { color: inherit; text-decoration: none; }
+.minishop-site-nav a:hover { color: #0756d9; }
+
+@media screen and (max-width: 749px) {
+  .utility-bar__grid.page-width { padding: 8px 14px !important; }
+  .announcement-bar__message.h5 { font-size: 10px; }
+  .header-wrapper .header.page-width { min-height: 0; flex-wrap: wrap; gap: 12px; padding: 13px 14px !important; }
+  .minishop-header-brand { font-size: 24px; }
+  .header-wrapper .header__icons { margin-left: auto; }
+  .header-wrapper .header__icon--cart { height: 40px; padding: 7px 10px; }
+  .minishop-cart-label { font-size: 12px; }
+  .minishop-header-search { order: 3; flex: 0 0 100%; }
+  .minishop-site-nav { gap: 18px; padding: 11px 14px; font-size: 12px; }
+}

@@ -20,7 +20,7 @@
   }
 {%- endstyle -%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient">
+<div class="minishop-related-products color-{{ section.settings.color_scheme }} gradient">
   <product-recommendations
     class="related-products page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
     data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
@@ -31,25 +31,27 @@
       <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
         {{ section.settings.heading }}
       </h2>
+      <p class="minishop-related-caption">{{ 'minishop.related_caption' | t }}</p>
       <ul
         class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
         role="list"
       >
-        {% assign skip_card_product_styles = false %}
         {% for recommendation in recommendations.products %}
           <li class="grid__item">
-            {% render 'card-product',
-              card_product: recommendation,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              skip_styles: skip_card_product_styles,
-              product_view_context: 'recommendation'
-            %}
+            <article class="minishop-related-card">
+              <a href="{{ recommendation.url }}" class="minishop-related-image">
+                {% if recommendation.featured_image %}
+                  {{ recommendation.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: recommendation.featured_image.alt | default: recommendation.title }}
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {% endif %}
+              </a>
+              <p class="minishop-related-category">{% if recommendation.type != blank %}{{ recommendation.type | escape }}{% else %}{{ 'minishop.product' | t }}{% endif %}</p>
+              <h3><a href="{{ recommendation.url }}">{{ recommendation.title | escape }}</a></h3>
+              <p class="minishop-related-price">{{ recommendation.price | money }}</p>
+              <a class="minishop-related-link" href="{{ recommendation.url }}">{{ 'minishop.view_product' | t }}</a>
+            </article>
           </li>
-          {%- assign skip_card_product_styles = true -%}
         {% endfor %}
       </ul>
     {% endif %}
