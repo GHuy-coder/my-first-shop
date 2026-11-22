@@ -1,0 +1,16 @@
+{% doc %}
+  Renders a MiniShop product card with a Shopify add-to-cart form.
+  @param {product} product - Product to display
+  @param {boolean} featured - Whether to use the featured card style
+{% enddoc %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+<article class="{% if featured %}featured{% else %}product{% endif %}" data-price="{{ current_variant.price }}" data-created="{{ product.created_at | date: '%s' }}">
+  <a class="product-card-link" href="{{ product.url }}">
+    <div class="photo-wrap">{% if product.featured_image %}{{ product.featured_image | image_url: width: 600 | image_tag: class: 'product-photo', loading: 'lazy', alt: product.featured_image.alt | default: product.title }}{% else %}<div class="product-photo"></div>{% endif %}{% if product.compare_at_price > product.price %}<span class="tag">-{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%</span>{% endif %}</div>
+    {% if featured %}<div class="rating">★★★★★</div>{% endif %}
+    <h3 class="product-name">{{ product.title | escape }}</h3>
+  </a>
+  <div class="price">{{ current_variant.price | money }}{% if product.compare_at_price > product.price %}<span class="old">{{ product.compare_at_price | money }}</span>{% endif %}</div>
+  {% if featured %}<p class="product-stock">{% if product.available %}Còn hàng{% else %}Hết hàng{% endif %}</p>{% else %}<div class="stock"><span>{% if product.available %}Đang có ưu đãi{% else %}Tạm hết hàng{% endif %}</span><i style="width:72%"></i></div>{% endif %}
+  {% if product.available %}<form method="post" action="{{ routes.cart_add_url }}" class="mini-add-form"><input type="hidden" name="id" value="{{ current_variant.id }}"><input type="hidden" name="quantity" value="1"><button class="buy" type="submit">Thêm vào giỏ</button></form>{% else %}<a class="buy" href="{{ product.url }}">Xem sản phẩm</a>{% endif %}
+</article>

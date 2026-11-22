@@ -1,75 +1,39 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
-      "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
+    "minishop_home": {
+      "type": "minishop-home",
+      "settings": {
+        "brand_text": "MiniShop",
+        "hotline": "1800 6868 (Miễn phí)",
+        "phone_link": "18006868",
+        "delivery_note": "Giao hàng nhanh 2h toàn quốc",
+        "store_note": "Hệ thống 120 cửa hàng",
+        "email": "cskh@minishop.vn",
+        "benefit_1_title": "100% Chính hãng",
+        "benefit_1_text": "Cam kết nguồn gốc xuất xứ",
+        "benefit_2_title": "Đổi trả 30 ngày",
+        "benefit_2_text": "Miễn phí thủ tục tại chỗ",
+        "benefit_3_title": "Giao 2H siêu tốc",
+        "benefit_3_text": "Áp dụng nội thành TP.HCM & HN",
+        "benefit_4_title": "Hỗ trợ 24/7",
+        "benefit_4_text": "Tổng đài 1800 6868 miễn cước",
+        "categories_heading": "Danh mục nổi bật",
+        "flash_heading": "FLASH SALE GIỜ VÀNG",
+        "flash_note": "Ưu đãi có hạn mỗi ngày",
+        "flash_collection": "all",
+        "featured_heading": "SẢN PHẨM NỔI BẬT",
+        "featured_collection": "all",
+        "products_to_show": 10,
+        "footer_badge": "Đã thông báo Bộ Công Thương"
       },
-      "block_order": [
-        "heading",
-        "button"
-      ],
-      "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
-      }
+      "blocks": {
+        "slide_1": {"type":"slide","settings":{"caption":"Khám phá sản phẩm mới tại MiniShop"}},
+        "slide_2": {"type":"slide","settings":{"caption":"Ưu đãi hấp dẫn mỗi ngày"}},
+        "promo_coffee": {"type":"promo","settings":{"label":"Cà phê thượng hạng","heading":"Ưu đãi cà phê nguyên chất","offer":"MUA 2 TẶNG 1","link_label":"Khám phá ngay"}},
+        "promo_home": {"type":"promo","settings":{"label":"Nhà cửa & đời sống","heading":"Đồ gia dụng thông minh","offer":"VOUCHER 50.000₫","link_label":"Nhận mã giảm giá"}}
+      },
+      "block_order": ["slide_1", "slide_2", "promo_coffee", "promo_home"]
     }
   },
-  "order": [
-    "image_banner",
-    "featured_collection"
-  ]
+  "order": ["minishop_home"]
 }
